@@ -1,0 +1,19 @@
+node_modules
+.DS_Store
+
+# build files
+es/
+lib/
+dist/
+typings/
+
+_site
+yarn-error.log
+.stylelintcache
+
+yarn.lock
+*.rdb
+.vercel
+
+logs/
+.env

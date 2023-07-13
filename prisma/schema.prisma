@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int       @id @default(autoincrement()) /// 主键ID
+  name       String    @db.VarChar(30) /// 用户名称
+  phone      String    @unique @db.VarChar(30)
+  enable     Boolean   @default(true)
+  password   String    @db.VarChar(255)
+  salt       String    @db.VarChar(30)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime? @db.DateTime(0)
+  userRoleId Int?
+  userRole   UserRole? @relation(fields: [userRoleId], references: [id], onDelete: Cascade, map: "user_ibfk_1")
+
+  @@index([userRoleId], map: "userRoleId")
+}
+
+model UserRole {
+  id            Int       @id @default(autoincrement())
+  name          String?   @db.VarChar(255)
+  menuList      Json
+  operationList Json
+  mark          String?   @db.VarChar(255)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime? @db.DateTime(0)
+  user          User[]
+}
